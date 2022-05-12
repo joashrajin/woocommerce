@@ -41,6 +41,6 @@ class OrdersDataStoreServiceProvider extends AbstractServiceProvider {
 
 		$this->share( DataSynchronizer::class )->addArguments( array( OrdersTableDataStore::class, DatabaseUtil::class, PostsToOrdersMigrationController::class ) );
 		$this->share( CustomOrdersTableController::class )->addArguments( array( OrdersTableDataStore::class, DataSynchronizer::class ) );
-		$this->share( OrdersTableDataStore::class );
+		$this->share( OrdersTableDataStore::class )->addArguments( array( OrdersTableDataStoreMeta::class, OrdersTableDataStoreHelper::class ) );
 	}
 }
