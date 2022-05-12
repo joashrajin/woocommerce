@@ -10,6 +10,7 @@ use Automattic\WooCommerce\Internal\DependencyManagement\AbstractServiceProvider
 use Automattic\WooCommerce\Internal\DataStores\Orders\DataSynchronizer;
 use Automattic\WooCommerce\Internal\DataStores\Orders\CustomOrdersTableController;
 use Automattic\WooCommerce\Internal\DataStores\Orders\OrdersTableDataStore;
+use Automattic\WooCommerce\Internal\DataStores\Orders\OrdersTableDataStoreMeta;
 use Automattic\WooCommerce\Internal\Utilities\DatabaseUtil;
 
 /**
@@ -26,12 +27,14 @@ class OrdersDataStoreServiceProvider extends AbstractServiceProvider {
 		DataSynchronizer::class,
 		CustomOrdersTableController::class,
 		OrdersTableDataStore::class,
+		OrdersTableDataStoreMeta::class,
 	);
 
 	/**
 	 * Register the classes.
 	 */
 	public function register() {
+		$this->share( OrdersTableDataStoreMeta::class );
 		$this->share( DataSynchronizer::class )->addArguments( array( OrdersTableDataStore::class, DatabaseUtil::class, PostsToOrdersMigrationController::class ) );
 		$this->share( CustomOrdersTableController::class )->addArguments( array( OrdersTableDataStore::class, DataSynchronizer::class ) );
 		$this->share( OrdersTableDataStore::class );
